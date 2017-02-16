@@ -1,36 +1,63 @@
 package main;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import connection.DBConnection;
-import ui.MainFrame;
 
 public class Main
 {
-	@SuppressWarnings("unused")
 	public static void main(String[] args) 
-			throws InterruptedException, SQLException
+			throws ParserConfigurationException, SAXException, IOException, 
+				SQLException
 	{
-		DBConnection dbConn = new DBConnection(
-				"localhost", "postgres", "postgres", "postgres");
-		dbConn.initProperties();
-		dbConn.init();
+		DBConnection conn = new DBConnection("localhost", "postgres", "postgres", "test_db");
+		conn.initProperties();
+		conn.init();
 		
-		ResultSet rs = dbConn.query("select * from accounts");
-		
-		dbConn.closeConnection();
+		conn.insertQuery("пёс", "конь", "овца");
+
+		ResultSet rs = conn.query("select * from test_table");
 		
 		while(rs.next())
 		{
-			System.out.println("id: "+rs.getString(1));
-			System.out.println("login: "+rs.getString(2));
-			System.out.println("password: "+rs.getString(3));
-			System.out.println("email: "+rs.getString(4));
-			System.out.println("name: "+rs.getString(5));
-			System.out.println("surname: "+rs.getString(6));
+			System.out.println(rs.getString(2));
+			System.out.println(rs.getString(3));
+			System.out.println(rs.getString(4));
 		}
 		
-		MainFrame mainFrame = new  MainFrame();
+		conn.closeConnection();
+		
+//		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//		DocumentBuilder docBuilder = factory.newDocumentBuilder();
+//		Document doc = docBuilder.parse(new File("accounts.xml"));
+//		
+//		String elementName = doc.getDocumentElement().getNodeName();
+//		System.out.println(elementName);
+//		
+//		NodeList nodeList = doc.getElementsByTagName("accounts");
+//		
+//		String login = "";
+//		String password = "";
+//		
+//		for (int i = 0; i < nodeList.getLength(); i++) 
+//		{
+//			Element el = (Element)nodeList.item(i);
+//			login = el.getElementsByTagName("login").item(0).getChildNodes().item(0).getNodeValue();
+//			password = el.getElementsByTagName("password").item(0).getChildNodes().item(0).getNodeValue();
+//		}
+//		
+//		System.out.println(login);
+//		System.out.println(password);
 	}
 }

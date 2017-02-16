@@ -111,4 +111,22 @@ public class DBConnection
 		}
 	}
 	
+	public void insertQuery(String val1, String val2, String val3)
+	{
+		try
+		{
+			Statement statement = conn.createStatement();
+			statement.executeUpdate("insert into test_table(dep_code, dep_job, "
+					+ "description) "
+					+ "values('"+val1+"', '"+val2+"', '"+val3+"')");
+
+			System.out.println("\nTable has updated\n");
+		}
+		catch (SQLException e)
+		{
+			System.out.println("\nError\n");
+			e.printStackTrace();
+		}
+	}
+	
 }
