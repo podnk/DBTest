@@ -1,14 +1,11 @@
 package main;
 
-import java.sql.SQLException;
-import connection.DBConnection;
-import ui.FrameController;
+import ui.MainFrame;
 
 public class Main
 {
-	public static void main(String[] args) throws SQLException
+	public static void main(String[] args)
 	{
-		new DBConnection("localhost", "postgres", "postgres", "test_db");
-		new FrameController();
+		new MainFrame();
 	}
 }

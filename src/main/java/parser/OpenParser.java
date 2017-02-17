@@ -46,25 +46,25 @@ public class OpenParser
 	{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
-		Document doc = docBuilder.parse("file to save");
+		Document doc = docBuilder.parse(openedFIle);
 		
 		String elementName = doc.getDocumentElement().getNodeName();
 		System.out.println(elementName);
 		
-		NodeList nodeList = doc.getElementsByTagName("accounts");
+		NodeList nodeList = doc.getElementsByTagName("test_table");
 		
 		
 		for (int i = 0; i < nodeList.getLength(); i++) 
 		{
 			Element el = (Element)nodeList.item(i);
-			depCode = el.getElementsByTagName("dep_code").item(0).getChildNodes().item(0).getNodeValue();
-			depJob = el.getElementsByTagName("dep_job").item(0).getChildNodes().item(0).getNodeValue();
-			description = el.getElementsByTagName("description").item(0).getChildNodes().item(0).getNodeValue();
+			
+			depCode = el.getElementsByTagName("dep_code").
+					item(0).getChildNodes().item(0).getNodeValue();
+			depJob = el.getElementsByTagName("dep_job").
+					item(0).getChildNodes().item(0).getNodeValue();
+			description = el.getElementsByTagName("description").
+					item(0).getChildNodes().item(0).getNodeValue();
 		}
-		
-		System.out.println(depCode);
-		System.out.println(depJob);
-		System.out.println(description);
 	}
 	
 	public String getDepCode()
