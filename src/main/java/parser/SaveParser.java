@@ -13,9 +13,26 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class Parser 
+public class SaveParser
 {
-	public void saveFile() throws ParserConfigurationException
+	public SaveParser()
+	{
+		
+	}
+	
+	public SaveParser(String fileName)
+	{
+		try
+		{
+			saveFile(fileName);
+		}
+		catch (ParserConfigurationException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void saveFile(String fileName) throws ParserConfigurationException
 	{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
@@ -53,7 +70,7 @@ public class Parser
 		{
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource domSource = new DOMSource(document);
-			StreamResult resultFile = new StreamResult("accounts.xml");
+			StreamResult resultFile = new StreamResult(fileName + ".xml");
 			transformer.transform(domSource, resultFile);
 			System.out.println("doc saved");
 		}

@@ -24,12 +24,19 @@ public class DBConnection
 		this.usrName = usrName;
 		this.pass = pass;
 		this.dbName = dbName;
+		initProperties();
+		init();
 	}
 
 	public DBConnection(String url, Properties props)
 	{
 		this.url = url;
 		this.props = props;
+	}
+	
+	public DBConnection()
+	{
+		
 	}
 
 	public void initProperties()
