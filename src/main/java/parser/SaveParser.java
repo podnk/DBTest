@@ -9,11 +9,11 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import connection.DBConnection;
 
-public class SaveParser
+public class SaveParser extends DBConnection
 {
 	public SaveParser()
 	{
@@ -37,40 +37,37 @@ public class SaveParser
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
 
-		Document document = docBuilder.newDocument();
+		Document doc = docBuilder.newDocument();
 
-		Element accountsEl = document.createElement("accounts");
-		document.appendChild(accountsEl);
+		Element accountsEl = doc.createElement("test_table");
+		doc.appendChild(accountsEl);
 
-		Element idEl = document.createElement("id");
-		accountsEl.appendChild(idEl);
-		Attr attrId = document.createAttribute("id");
-		attrId.setValue("1");
-		idEl.setAttributeNode(attrId);
+//		Element idEl = doc.createElement("id");
+//		accountsEl.appendChild(idEl);
+//		Attr attrId = doc.createAttribute("id");
+//		attrId.setValue("1");
+//		idEl.setAttributeNode(attrId);
 
-		Element loginEL = document.createElement("login");
-		accountsEl.appendChild(loginEL);
-
-
-		Element passwordEL = document.createElement("password");
-		accountsEl.appendChild(passwordEL);
+		Element depCodeElem = doc.createElement("dep_code");
+		depCodeElem.appendChild(doc.createTextNode("depCodeText"));
+		accountsEl.appendChild(depCodeElem);
 
 
-		Element emailEL = document.createElement("email");
-		accountsEl.appendChild(emailEL);
+		Element depJobElem = doc.createElement("dep_job");
+		depJobElem.appendChild(doc.createTextNode("depJobText"));
+		accountsEl.appendChild(depJobElem);
 
-		Element nameEL = document.createElement("name");
-		accountsEl.appendChild(nameEL);
 
-		Element surnameEl = document.createElement("surname");
-		accountsEl.appendChild(surnameEl);
+		Element descriptionElem = doc.createElement("description");
+		descriptionElem.appendChild(doc.createTextNode("descrText"));
+		accountsEl.appendChild(descriptionElem);
 
 		TransformerFactory  transformerFactory = TransformerFactory.newInstance();
 		try
 		{
 			Transformer transformer = transformerFactory.newTransformer();
-			DOMSource domSource = new DOMSource(document);
-			StreamResult resultFile = new StreamResult(fileName + ".xml");
+			DOMSource domSource = new DOMSource(doc);
+			StreamResult resultFile = new StreamResult(fileName);
 			transformer.transform(domSource, resultFile);
 			System.out.println("doc saved");
 		}

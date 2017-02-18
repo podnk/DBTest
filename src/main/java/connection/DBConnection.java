@@ -24,8 +24,6 @@ public class DBConnection
 		this.usrName = usrName;
 		this.pass = pass;
 		this.dbName = dbName;
-		initProperties();
-		init();
 	}
 
 	public DBConnection(String url, Properties props)
@@ -129,7 +127,7 @@ public class DBConnection
 
 			System.out.println("\nTable has updated\n");
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
 			System.out.println("\nError\n");
 			e.printStackTrace();

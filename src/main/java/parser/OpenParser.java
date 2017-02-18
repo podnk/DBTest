@@ -9,9 +9,17 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import connection.DBConnection;
 
 public class OpenParser
 {
+	private String depCode = "";
+	private String depJob = "";
+	private String description = "";
+	
+	DBConnection conn = new DBConnection("localhost", "postgres", "postgres", "test_db");
+	
+
 	public OpenParser()
 	{
 		
@@ -19,6 +27,9 @@ public class OpenParser
 	
 	public OpenParser(File fileToOpenAndParse)
 	{
+		conn.initProperties();
+		conn.init();
+
 		try
 		{
 			parseOpenedFile(fileToOpenAndParse);
@@ -35,11 +46,12 @@ public class OpenParser
 		{
 			e.printStackTrace();
 		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
 	}
 	
-	private String depCode = "";
-	private String depJob = "";
-	private String description = "";
 	
 	public void parseOpenedFile(File openedFIle) 
 			throws ParserConfigurationException, SAXException, IOException
@@ -64,6 +76,19 @@ public class OpenParser
 					item(0).getChildNodes().item(0).getNodeValue();
 			description = el.getElementsByTagName("description").
 					item(0).getChildNodes().item(0).getNodeValue();
+		}
+		
+		System.out.println(depCode);
+		System.out.println(depJob);
+		System.out.println(description);
+		
+		try
+		{
+			conn.insertQuery(depCode, depJob, description);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 	

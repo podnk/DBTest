@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<accounts>
-	<id id="1" />
-	<login>rootLogin</login>
-	<password>rootPassword</password>
-	<email />
-	<name />
-	<surname />
-</accounts>

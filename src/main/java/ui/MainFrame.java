@@ -5,14 +5,12 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import org.apache.commons.io.FilenameUtils;
+import javax.swing.JOptionPane;
 
+import org.apache.commons.io.FilenameUtils;
 import connection.DBConnection;
 import parser.OpenParser;
 import parser.SaveParser;
@@ -29,7 +27,6 @@ public class MainFrame extends JFrame
 	
 	JFileChooser fileChooser = new JFileChooser();
 	Reader r = new Reader();
-	DBConnection conn;
 	
 	public MainFrame()
 	{
@@ -38,7 +35,6 @@ public class MainFrame extends JFrame
 	
 	public void initFrame()
 	{
-		conn = new DBConnection("localhost", "postgres", "postgres", "test_db");
 		syncTableFromXmlButton = new JButton("Open file");
 		saveTableToXmlButton = new JButton("Save table");
 		showLogsButton = new JButton("logs");
@@ -84,7 +80,23 @@ public class MainFrame extends JFrame
 					if(optionCode == 0/*JFileChooser.APPROVE_OPTION*/)
 					{
 						openedFile = fileChooser.getSelectedFile();
-						new OpenParser(openedFile);
+						
+						if(openedFile.exists() && openedFile != null)
+						{
+							try
+							{
+								new OpenParser(openedFile);
+							}
+							catch (Exception e2)
+							{
+								e2.printStackTrace();
+							}
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(fileChooser, 
+									"some error with opening file");
+						}
 						System.out.println(openedFile.getName());
 					}
 				}
@@ -119,7 +131,6 @@ public class MainFrame extends JFrame
 				else if(e.getSource() == showLogsButton)
 				{
 					// opening log file
-					conn.insertQuery("asdf", "asdfasd", "dfgadf");
 				}
 			}
 			catch (Exception ex) 
