@@ -55,8 +55,11 @@ public class DBConnection
 			Class.forName("org.postgresql.Driver");
 
 			conn = DriverManager.getConnection(url, usrName, pass);
-
-			System.out.println("\nThe connection is established\n");
+			
+			if (conn != null)
+			{
+				System.out.println("\nThe connection is established\n");
+			}
 		}
 		catch (ClassNotFoundException e)
 		{

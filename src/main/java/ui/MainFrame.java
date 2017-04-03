@@ -9,15 +9,16 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
 import org.apache.commons.io.FilenameUtils;
-import connection.DBConnection;
+import org.apache.log4j.Logger;
 import parser.OpenParser;
 import parser.SaveParser;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame
 {
+	private static final Logger log = Logger.getLogger(MainFrame.class);
+	
 	private static File openedFile;
 	private static File savedFile;
 	
@@ -31,6 +32,7 @@ public class MainFrame extends JFrame
 	public MainFrame()
 	{
 		initFrame();
+		log.info("MainFrame initialized");
 	}
 	
 	public void initFrame()
