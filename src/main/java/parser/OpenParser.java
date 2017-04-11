@@ -2,9 +2,13 @@ package parser;
 
 import java.io.File;
 import java.io.IOException;
+
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -13,42 +17,49 @@ import connection.DBConnection;
 
 public class OpenParser
 {
+	private static final Logger log = Logger.getLogger(OpenParser.class);
+	
 	private String depCode = "";
 	private String depJob = "";
 	private String description = "";
 	
-	DBConnection conn = new DBConnection("localhost", "postgres", "postgres", "test_db");
-	
+	DBConnection conn;
 
-	public OpenParser()
-	{
-		
-	}
+	public OpenParser(){}
 	
-	public OpenParser(File fileToOpenAndParse)
+	public OpenParser(File fileToOpenAndParse) throws IOException
 	{
-		conn.initProperties();
+		conn = new DBConnection();
 		conn.init();
 
 		try
 		{
 			parseOpenedFile(fileToOpenAndParse);
+			conn.closeConnection();
 		}
 		catch (ParserConfigurationException e)
 		{
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error1");
+			log.error(e);
 		}
 		catch (SAXException e)
 		{
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error2");
+			log.error(e);
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error3");
+			log.error(e);
 		}
 		catch (Exception e) 
 		{
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error4");
+			log.error(e);
 		}
 	}
 	
@@ -89,6 +100,8 @@ public class OpenParser
 		catch (Exception e)
 		{
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error5");
+			log.error(e);
 		}
 	}
 	

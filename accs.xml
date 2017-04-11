@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<test_table>
-	<dep_code>depCodeText</dep_code>
-	<dep_job>depJobText</dep_job>
-	<description>descrText</description>
-</test_table>

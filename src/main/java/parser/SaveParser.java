@@ -1,5 +1,6 @@
 package parser;
 
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -9,16 +10,18 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import connection.DBConnection;
+import ui.MainFrame;
 
 public class SaveParser extends DBConnection
 {
-	public SaveParser()
-	{
-		
-	}
+	private static final Logger log = Logger.getLogger(MainFrame.class);
+	
+	public SaveParser(){}
 	
 	public SaveParser(String fileName)
 	{
@@ -28,7 +31,8 @@ public class SaveParser extends DBConnection
 		}
 		catch (ParserConfigurationException e)
 		{
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error");
+			log.error(e);
 		}
 	}
 	
@@ -69,15 +73,19 @@ public class SaveParser extends DBConnection
 			DOMSource domSource = new DOMSource(doc);
 			StreamResult resultFile = new StreamResult(fileName);
 			transformer.transform(domSource, resultFile);
-			System.out.println("doc saved");
+			System.out.println("Document saved");
+			log.info("Document saved");
+			
 		}
 		catch (TransformerConfigurationException ex)
 		{
-			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error");
+			log.error(ex);
 		}
 		catch (TransformerException ex)
 		{
-			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error");
+			log.error(ex);
 		}
 	}
 }

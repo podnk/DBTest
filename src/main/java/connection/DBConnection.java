@@ -1,51 +1,39 @@
 package connection;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
 
-public class DBConnection
+import javax.swing.JOptionPane;
+
+import org.apache.log4j.Logger;
+
+//import java.util.Properties;
+import services.PropertiesClass;
+import ui.MainFrame;
+
+public class DBConnection  
 {
-	private String host;
-	private String usrName;
-	private String pass;
-	private String dbName;
-	private String url;
-
-	private Properties props = new Properties();
+	private static final Logger log = Logger.getLogger(MainFrame.class);
+	
+	static PropertiesClass propClass = new PropertiesClass();
+	
 	private Connection conn;
-
-	public DBConnection(String host, String usrName, String pass, String dbName)
-	{
-		this.host = host;
-		this.usrName = usrName;
-		this.pass = pass;
-		this.dbName = dbName;
-	}
-
-	public DBConnection(String url, Properties props)
-	{
-		this.url = url;
-		this.props = props;
-	}
 	
 	public DBConnection()
 	{
-		
-	}
-
-	public void initProperties()
-	{
-		url = "jdbc:postgresql://" + host + ":5432/" + dbName;
-		props.setProperty("url", url);
-		props.setProperty("user", usrName);
-		props.setProperty("password", pass);
-		props.setProperty("dialect", "org.hibernate.dialect.PostgreSQLDialect");
-		props.setProperty("characterEncoding", "UTF-8");
-		props.setProperty("useUnicode", "true");
+		try
+		{
+			propClass.initProperties();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			log.error(e);
+		}
 	}
 
 	public void init()
@@ -54,20 +42,23 @@ public class DBConnection
 		{
 			Class.forName("org.postgresql.Driver");
 
-			conn = DriverManager.getConnection(url, usrName, pass);
+			conn = DriverManager.getConnection(PropertiesClass.url, PropertiesClass.username, PropertiesClass.password);
 			
 			if (conn != null)
 			{
-				System.out.println("\nThe connection is established\n");
+				System.out.println("The connection is established");
+				log.info("The connection is established");
 			}
 		}
 		catch (ClassNotFoundException e)
 		{
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error9");
+			log.error(e);
 		}
 		catch (SQLException e)
 		{
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error10");
+			log.error(e);
 		}
 	}
 
@@ -77,11 +68,12 @@ public class DBConnection
 		{
 			conn.close();
 			System.out.println("\nThe connection is closed\n");
+			log.info("Connection closed");
 		}
 		catch (SQLException e)
 		{
-			System.out.println("\nError\n");
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error8");
+			log.error(e);
 		}
 	}
 
@@ -95,10 +87,12 @@ public class DBConnection
 			result = statement.executeQuery(query);
 
 			System.out.println("\nResult set has obtained\n");
+			log.info("Result set has obtained");
 		}
 		catch (SQLException e)
 		{
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error7");
+			log.error(e);
 		}
 		return result;
 	}
@@ -111,11 +105,12 @@ public class DBConnection
 			statement.executeUpdate(query);
 
 			System.out.println("\nTable has updated\n");
+			log.info("Table has updated");
 		}
 		catch (SQLException e)
 		{
-			System.out.println("\nError\n");
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error6");
+			log.error(e);
 		}
 	}
 	
@@ -129,11 +124,12 @@ public class DBConnection
 					+ "values('"+val1+"', '"+val2+"', '"+val3+"')");
 
 			System.out.println("\nTable has updated\n");
+			log.info("Values inserted");
 		}
 		catch (Exception e)
 		{
-			System.out.println("\nError\n");
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error12");
+			log.error(e);
 		}
 	}
 	
